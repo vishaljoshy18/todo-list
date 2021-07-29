@@ -20,6 +20,19 @@ const createSideNav = function () {
     document.body.appendChild(sidenav);
 };
 
+const createProjectDiv = function (projectName) {
+    const div = document.createElement('div');
+    div.textContent = projectName;
+    div.setAttribute('id', 'project');
+
+    const button = document.createElement('button');
+    button.textContent = 'x';
+    button.setAttribute('data-projectname', projectName);
+    button.setAttribute('id', 'delete-project-button');
+    div.appendChild(button);
+    return div;
+};
+
 const createProjectForm = function () {
     const popupForm = document.createElement('div');
     popupForm.setAttribute('class', 'form-popup');
@@ -61,4 +74,4 @@ const createProjectForm = function () {
     return popupForm;
 };
 
-export { createSideNav };
+export { createSideNav, createProjectDiv };

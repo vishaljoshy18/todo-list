@@ -1,5 +1,5 @@
-import { createProject, getProjects } from './project';
-import { createSideNav } from './sidenav/sidenav-dom';
+import { createProject, getProjects, deleteProject } from './project';
+import { createSideNav, createProjectDiv } from './sidenav/sidenav-dom';
 
 const sidenav = (function () {
     const initialize = function () {
@@ -12,10 +12,15 @@ const sidenav = (function () {
         const projectList = document.querySelector('#project-list');
         projectList.innerHTML = '';
         getProjects().forEach((project) => {
-            const div = document.createElement('div');
-            div.textContent = project.projectName;
-            console.log('update', project.projectName);
-            projectList.appendChild(div);
+            const projectDiv = createProjectDiv(project.projectName);
+            projectList.appendChild(projectDiv);
+            addDeleteProjectEventListener();
+        });
+    };
+    const addDeleteProjectEventListener = function () {
+        const deleteProjectButtons = document.querySelectorAll('#delete-project-button');
+        deleteProjectButtons.forEach((button) => {
+            button.addEventListener('click', projectListModule.deleteProjectFromList);
         });
     };
 
@@ -34,6 +39,13 @@ const projectListModule = (function () {
         form.addEventListener('submit', addNewProject, false);
     };
 
+    const deleteProjectFromList = function (event) {
+        const projectName = event.target.dataset.projectname;
+        console.log(projectName);
+        deleteProject(projectName);
+        sidenav.updateProjectList();
+    };
+
     const addNewProject = function (event) {
         event.preventDefault();
         const projectName = document.querySelector('#project-name').value;
@@ -48,7 +60,7 @@ const projectListModule = (function () {
     const closePopUpForm = function () {
         document.querySelector('.form-popup').style.display = 'none';
     };
-    return { openProjectForm };
+    return { openProjectForm, deleteProjectFromList };
 })();
 
 const loadSideNav = function () {
