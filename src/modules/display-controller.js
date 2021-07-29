@@ -69,40 +69,47 @@ const sidenav = (function () {
         getProjects().forEach((project) => {
             const div = document.createElement('div');
             div.textContent = project.projectName;
+            console.log(project.projectName);
             projectList.appendChild(div);
         });
     };
 
     return { createNav, updateProjectList };
 })();
-
-const eventHandler = (function () {
+const projectListModule = (function () {
     const addProjectEventListener = function () {
         const openProjectFormButton = document.querySelector('#open-project-form');
         openProjectFormButton.addEventListener('click', openProjectForm);
     };
 
     const openProjectForm = function () {
-        document.querySelector('.form-popup').style.display = 'block';
+        openForm();
         const form = document.querySelector('#project-form');
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log('form works');
-        });
+        form.addEventListener('submit', addProject, false);
     };
 
-    const addProject = function (projectName) {
+    const addProject = function (event) {
+        event.preventDefault();
+        const projectName = document.querySelector('#project-name').value;
+
         createProject(projectName);
         sidenav.updateProjectList();
+
+        closeForm();
     };
 
+    const openForm = function () {
+        document.querySelector('.form-popup').style.display = 'block';
+    };
+    const closeForm = function () {
+        document.querySelector('.form-popup').style.display = 'none';
+    };
     return { addProjectEventListener };
 })();
 
 const loadSideNav = function () {
     sidenav.createNav();
-    eventHandler.addProjectEventListener();
+    projectListModule.addProjectEventListener();
 };
 
 export { loadSideNav };

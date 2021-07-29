@@ -7,7 +7,6 @@ function projectFactory(name) {
 const createProject = function (projectName) {
     const newProject = projectFactory(projectName);
     projects.push(newProject);
-    console.log(projects);
 };
 
 const getProjects = function () {
