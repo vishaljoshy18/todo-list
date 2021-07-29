@@ -25,11 +25,14 @@ const createProjectDiv = function (projectName) {
     div.textContent = projectName;
     div.setAttribute('id', 'project');
 
-    const button = document.createElement('button');
-    button.textContent = 'x';
-    button.setAttribute('data-projectname', projectName);
-    button.setAttribute('id', 'delete-project-button');
-    div.appendChild(button);
+    if (projectName != 'Default') {
+        const button = document.createElement('button');
+        button.textContent = 'x';
+        button.setAttribute('data-projectname', projectName);
+        button.setAttribute('id', 'delete-project-button');
+        div.appendChild(button);
+    }
+    
     return div;
 };
 

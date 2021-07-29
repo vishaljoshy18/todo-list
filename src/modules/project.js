@@ -10,13 +10,11 @@ const createProject = function (projectName) {
 };
 
 const deleteProject = function (name) {
-    console.log(name);
     const indexOfProject = projects.findIndex((project) => {
         if (project.projectName === name) {
             return project;
         }
     });
-    console.log(indexOfProject);
     projects.splice(indexOfProject, 1);
 };
 

@@ -1,9 +1,10 @@
 import { createProject, getProjects, deleteProject } from './project';
-import { createSideNav, createProjectDiv } from './sidenav/sidenav-dom';
+import { createSideNav, createProjectDiv } from './display-components/sidenav-dom';
 
 const sidenav = (function () {
     const initialize = function () {
         createSideNav();
+        projectListModule.createDefaultProject();
         updateProjectList();
         addProjectEventListener();
     };
@@ -53,6 +54,9 @@ const projectListModule = (function () {
         sidenav.updateProjectList();
         closePopUpForm();
     };
+    const createDefaultProject = function () {
+        createProject('Default');
+    };
 
     const openPopUpForm = function () {
         document.querySelector('.form-popup').style.display = 'block';
@@ -60,7 +64,7 @@ const projectListModule = (function () {
     const closePopUpForm = function () {
         document.querySelector('.form-popup').style.display = 'none';
     };
-    return { openProjectForm, deleteProjectFromList };
+    return { openProjectForm, deleteProjectFromList, createDefaultProject };
 })();
 
 const loadSideNav = function () {
