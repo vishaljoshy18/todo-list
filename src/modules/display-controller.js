@@ -10,8 +10,8 @@ const sidenav = (function () {
         document.body.appendChild(main);
         projectListModule.createDefaultProject();
         updateProjectList();
-        headerDom.updateSelectedProject('Default');
-        addProjectEventListener();
+        onClickNewProject();
+        headerDom.updateSelectedProjectHeading('Default');
     };
 
     const updateProjectList = function () {
@@ -19,23 +19,32 @@ const sidenav = (function () {
         projectList.innerHTML = '';
         projects.getProjects().forEach((project) => {
             const projectDiv = sidenavDom.createProjectDiv(project.projectName);
+            console.log(projectDiv);
             projectList.appendChild(projectDiv);
-            addDeleteProjectEventListener();
+            onClickDeleteProject();
         });
     };
-    const addDeleteProjectEventListener = function () {
+    const onClickDeleteProject = function () {
         const deleteProjectButtons = document.querySelectorAll('#delete-project-button');
         deleteProjectButtons.forEach((button) => {
             button.addEventListener('click', projectListModule.deleteProjectFromList);
         });
     };
 
-    const addProjectEventListener = function () {
+    const onClickNewProject = function () {
         const openProjectFormButton = document.querySelector('#open-project-form');
         openProjectFormButton.addEventListener('click', projectListModule.openProjectForm);
     };
+    const onClickProjectList = function () {
+        const projectList = document.querySelectorAll('#project');
+        projectList.forEach((project) => {
+            project.addEventListener('click', () => {
+                headerDom.updateSelectedProjectHeading(project.dataset.projectname);
+            });
+        });
+    };
 
-    return { initialize, updateProjectList };
+    return { initialize, updateProjectList, onClickProjectList };
 })();
 
 const projectListModule = (function () {
@@ -50,6 +59,7 @@ const projectListModule = (function () {
         projects.createProject(projectName);
         sidenav.updateProjectList();
         closePopUpForm();
+        sidenav.onClickProjectList();
     };
 
     const deleteProjectFromList = function (event) {

@@ -2,8 +2,10 @@ const headerDom = (function () {
     const createHeader = function () {
         const header = document.createElement('header');
         header.appendChild(createToDoIcon());
-        header.appendChild(updateSelectedProject());
+        header.appendChild(createSelectedProjectHeading());
         document.body.appendChild(header);
+
+        createSelectedProjectHeading();
     };
     const createToDoIcon = function () {
         const icon = document.createElement('div');
@@ -16,16 +18,19 @@ const headerDom = (function () {
         icon.appendChild(heading);
         return icon;
     };
-    const updateSelectedProject = function () {
+    const createSelectedProjectHeading = function () {
         const div = document.createElement('div');
-        const projectHeding = document.createElement('h3');
-        projectHeding.setAttribute('id', 'project-header');
-        projectHeding.textContent = 'Default';
-        div.appendChild(projectHeding);
+        const projectHeading = document.createElement('h3');
+        projectHeading.setAttribute('id', 'project-header');
+        div.appendChild(projectHeading);
         return div;
     };
+    const updateSelectedProjectHeading = function (projectName) {
+        const projectHeading = document.querySelector('#project-header');
+        projectHeading.textContent = projectName;
+    };
 
-    return { createHeader, updateSelectedProject };
+    return { createHeader, updateSelectedProjectHeading };
 })();
 
 export default headerDom;

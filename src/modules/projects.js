@@ -1,5 +1,6 @@
 const projects = (function () {
     let projects = [];
+    
 
     function projectFactory(name) {
         return { projectName: name, todoList: [] };

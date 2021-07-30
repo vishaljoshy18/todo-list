@@ -24,8 +24,8 @@ const sideNavDom = (function () {
     const createProjectDiv = function (projectName) {
         const div = document.createElement('div');
         div.textContent = projectName;
+        div.setAttribute('data-projectname', projectName);
         div.setAttribute('id', 'project');
-
         if (projectName == 'Default') {
             return div;
         }
