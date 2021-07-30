@@ -1,80 +1,85 @@
-const createSideNav = function () {
-    const sidenav = document.createElement('div');
-    sidenav.setAttribute('class', 'side-nav');
+const sideNavDom = (function () {
+    const createSideNav = function () {
+        const sidenav = document.createElement('div');
+        sidenav.setAttribute('class', 'side-nav');
 
-    const projectListHeading = document.createElement('h3');
-    projectListHeading.textContent = 'Projects';
-    sidenav.appendChild(projectListHeading);
+        const projectListHeading = document.createElement('h3');
+        projectListHeading.textContent = 'Projects';
+        sidenav.appendChild(projectListHeading);
 
-    const openProjectFormButton = document.createElement('button');
-    openProjectFormButton.textContent = 'Add Project';
-    openProjectFormButton.setAttribute('id', 'open-project-form');
-    sidenav.appendChild(openProjectFormButton);
+        const openProjectFormButton = document.createElement('button');
+        openProjectFormButton.textContent = 'Add Project';
+        openProjectFormButton.setAttribute('id', 'open-project-form');
+        sidenav.appendChild(openProjectFormButton);
 
-    const projectList = document.createElement('div');
-    projectList.setAttribute('id', 'project-list');
-    sidenav.appendChild(projectList);
+        const projectList = document.createElement('div');
+        projectList.setAttribute('id', 'project-list');
+        sidenav.appendChild(projectList);
 
-    sidenav.appendChild(createProjectForm());
+        sidenav.appendChild(createProjectForm());
 
-    document.body.appendChild(sidenav);
-};
+        return sidenav;
+    };
 
-const createProjectDiv = function (projectName) {
-    const div = document.createElement('div');
-    div.textContent = projectName;
-    div.setAttribute('id', 'project');
+    const createProjectDiv = function (projectName) {
+        const div = document.createElement('div');
+        div.textContent = projectName;
+        div.setAttribute('id', 'project');
 
-    if (projectName != 'Default') {
+        if (projectName == 'Default') {
+            return div;
+        }
         const button = document.createElement('button');
         button.textContent = 'x';
         button.setAttribute('data-projectname', projectName);
         button.setAttribute('id', 'delete-project-button');
         div.appendChild(button);
-    }
-    
-    return div;
-};
 
-const createProjectForm = function () {
-    const popupForm = document.createElement('div');
-    popupForm.setAttribute('class', 'form-popup');
+        return div;
+    };
 
-    const form = document.createElement('form');
-    form.setAttribute('id', 'project-form');
+    const createProjectForm = function () {
+        const popupForm = document.createElement('div');
+        popupForm.setAttribute('class', 'form-popup');
 
-    const formTitle = document.createElement('h2');
-    formTitle.textContent = 'Add Project';
-    form.appendChild(formTitle);
+        const form = document.createElement('form');
+        form.setAttribute('id', 'project-form');
 
-    const label = document.createElement('label');
-    label.textContent = 'Project Name';
-    label.setAttribute('for', 'project-name');
-    form.appendChild(label);
+        const formTitle = document.createElement('h2');
+        formTitle.textContent = 'Add Project';
+        form.appendChild(formTitle);
 
-    const input = document.createElement('input');
-    input.setAttribute('name', 'project-name');
-    input.setAttribute('id', 'project-name');
-    input.setAttribute('placeholder', 'Enter project name');
-    input.setAttribute('type', 'text');
-    input.setAttribute('required', true);
-    form.appendChild(input);
+        const label = document.createElement('label');
+        label.textContent = 'Project Name';
+        label.setAttribute('for', 'project-name');
+        form.appendChild(label);
 
-    const addButton = document.createElement('button');
-    addButton.setAttribute('type', 'submit');
-    addButton.setAttribute('id', 'add-project-button');
-    addButton.textContent = 'Add Project';
-    form.appendChild(addButton);
+        const input = document.createElement('input');
+        input.setAttribute('name', 'project-name');
+        input.setAttribute('id', 'project-name');
+        input.setAttribute('placeholder', 'Enter project name');
+        input.setAttribute('type', 'text');
+        input.setAttribute('required', true);
+        form.appendChild(input);
 
-    const cancelButton = document.createElement('button');
-    cancelButton.setAttribute('type', 'submit');
-    cancelButton.setAttribute('id', 'cancel-button');
-    cancelButton.textContent = 'Cancel';
-    form.appendChild(cancelButton);
+        const addButton = document.createElement('button');
+        addButton.setAttribute('type', 'submit');
+        addButton.setAttribute('id', 'add-project-button');
+        addButton.textContent = 'Add Project';
+        form.appendChild(addButton);
 
-    popupForm.appendChild(form);
+        const cancelButton = document.createElement('button');
+        cancelButton.setAttribute('type', 'submit');
+        cancelButton.setAttribute('id', 'cancel-button');
+        cancelButton.textContent = 'Cancel';
+        form.appendChild(cancelButton);
 
-    return popupForm;
-};
+        popupForm.appendChild(form);
 
-export { createSideNav, createProjectDiv };
+        return popupForm;
+    };
+
+    return { createSideNav, createProjectDiv };
+})();
+
+export default sideNavDom;
