@@ -20,7 +20,16 @@ const project = (function () {
         console.log(index);
         console.log(projects);
     };
-    return { addProject, delProject };
+    const addTodoToActiveProject = function (newTodo, activeProject) {
+        const indexOfActiveProject = projects.findIndex((project) => {
+            if (project.name == activeProject) {
+                return project;
+            }
+        });
+        projects[indexOfActiveProject].todo.push(newTodo);
+        console.log(projects);
+    };
+    return { addProject, delProject, addTodoToActiveProject };
 })();
 
 export default project;

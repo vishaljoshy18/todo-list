@@ -1,13 +1,16 @@
-const todoFactory = function (title, description, dueDate, priority) {
-    return { title, description, dueDate, priority };
+import project from './projects';
+
+const todoFactory = function (title, description) {
+    return { title, description };
 };
 
-const todoList = (function () {
-    const createTodo = (function (title, description, dueDate, priority) {
-        const newTodo = todoFactory(title, description, dueDate, priority);
-        console.log(newTodo);
-    })();
-    return { createTodo };
+const todo = (function () {
+    const addTask = function (title, description, activeProjectName) {
+        console.log('adding task');
+        const newTodo = todoFactory(title, description);
+        project.addTodoToActiveProject(newTodo, activeProjectName);
+    };
+    return { addTask };
 })();
 
-export default todoList;
+export default todo;

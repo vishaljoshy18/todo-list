@@ -1,4 +1,5 @@
 import project from './projects';
+import todo from './to-do';
 
 const sidebar = (function () {
     const initialize = function () {
@@ -36,6 +37,10 @@ const projectDisplay = (function () {
     };
     const addProjectToDisplay = function (name) {
         const projectDisplay = document.querySelector('#project-display');
+        const projectDiv = createProjectDiv(name);
+        projectDisplay.appendChild(projectDiv);
+    };
+    const createProjectDiv = function (name) {
         const projectDiv = document.createElement('div');
         projectDiv.textContent = name;
         projectDiv.setAttribute('id', 'project');
@@ -43,8 +48,6 @@ const projectDisplay = (function () {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'x';
         projectDiv.appendChild(deleteButton);
-        projectDisplay.appendChild(projectDiv);
-
         projectDiv.addEventListener(
             'click',
             (e) => {
@@ -56,6 +59,8 @@ const projectDisplay = (function () {
         );
 
         deleteButton.addEventListener('click', deleteSelectedProject, { once: true });
+
+        return projectDiv;
     };
 
     const setActiveProject = function (e) {
@@ -68,6 +73,7 @@ const projectDisplay = (function () {
         });
         e.target.setAttribute('id', 'active-project');
         todoDisplay.updateSelectedProjectHeader();
+        todoDisplay.updateSelectedProjectTasks();
     };
 
     const deleteSelectedProject = function (e) {
@@ -104,17 +110,39 @@ const todoDisplay = (function () {
         console.log('add task...');
         openPopUp();
         const form = document.querySelector('#add-task-form');
-        form.addEventListener('submit',(event) => {
-            event.preventDefault();
-            const title = document.querySelector('#task-title').value;
-            const description = document.querySelector('#task-description').value;
-            addNewTask(title, description);
-            form.reset();
-            closePopUp();
-        });
+        form.addEventListener(
+            'submit',
+            (event) => {
+                event.preventDefault();
+                const title = document.querySelector('#task-title').value;
+                const description = document.querySelector('#task-description').value;
+                const activeProjectName = document.querySelector('#active-project').dataset.name;
+                addNewTask(title, description, activeProjectName);
+                form.reset();
+                closePopUp();
+            },
+            { once: true }
+        );
     };
-    const addNewTask = function (title, description) {
+    const addNewTask = function (title, description, activeProjectName) {
+        // addTaskToDisplay(title, description);
+        todo.addTask(title, description, activeProjectName);
         console.log(title, description);
+    };
+    const updateSelectedProjectTasks = function () {
+        console.log('adding tasks to disaply....');
+    };
+
+    const addTaskToDisplay = function (title, description) {
+        const taskDisplay = document.querySelector('#task-display');
+        const div = document.createElement('div');
+        const displayTitle = document.createElement('title');
+        const displayDescription = document.createElement('description');
+        displayTitle.textContent = title;
+        displayDescription.textContent = description;
+        div.appendChild(displayTitle);
+        div.appendChild(displayDescription);
+        taskDisplay.appendChild(div);
     };
 
     const openPopUp = function () {
@@ -126,7 +154,7 @@ const todoDisplay = (function () {
         const form = document.querySelector('.task-form-popup');
         form.style.display = 'none';
     };
-    return { updateSelectedProjectHeader, onClickAddNewTask };
+    return { updateSelectedProjectHeader, onClickAddNewTask, updateSelectedProjectTasks };
 })();
 
 const loadUI = function () {
