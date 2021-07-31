@@ -5,6 +5,9 @@ const sidebar = (function () {
         document
             .querySelector('#add-new-project')
             .addEventListener('click', projectDisplay.onClickAddNewProject, false);
+        document
+            .querySelector('#add-new-task')
+            .addEventListener('click', todoDisplay.onClickAddNewTask, false);
     };
 
     return { initialize };
@@ -79,12 +82,12 @@ const projectDisplay = (function () {
     };
 
     const openPopUp = function () {
-        const form = document.querySelector('.form-popup');
+        const form = document.querySelector('.project-form-popup');
         form.style.display = 'block';
     };
 
     const closePopUp = function () {
-        const form = document.querySelector('.form-popup');
+        const form = document.querySelector('.project-form-popup');
         form.style.display = 'none';
     };
     return { onClickAddNewProject };
@@ -96,7 +99,34 @@ const todoDisplay = (function () {
         const header = document.querySelector('#selected-project-name');
         header.textContent = activeProject.dataset.name;
     };
-    return { updateSelectedProjectHeader };
+
+    const onClickAddNewTask = function () {
+        console.log('add task...');
+        openPopUp();
+        const form = document.querySelector('#add-task-form');
+        form.addEventListener('submit',(event) => {
+            event.preventDefault();
+            const title = document.querySelector('#task-title').value;
+            const description = document.querySelector('#task-description').value;
+            addNewTask(title, description);
+            form.reset();
+            closePopUp();
+        });
+    };
+    const addNewTask = function (title, description) {
+        console.log(title, description);
+    };
+
+    const openPopUp = function () {
+        const form = document.querySelector('.task-form-popup');
+        form.style.display = 'block';
+    };
+
+    const closePopUp = function () {
+        const form = document.querySelector('.task-form-popup');
+        form.style.display = 'none';
+    };
+    return { updateSelectedProjectHeader, onClickAddNewTask };
 })();
 
 const loadUI = function () {
