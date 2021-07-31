@@ -64,6 +64,7 @@ const projectDisplay = (function () {
             element.setAttribute('id', 'project');
         });
         e.target.setAttribute('id', 'active-project');
+        todoDisplay.updateSelectedProjectHeader();
     };
 
     const deleteSelectedProject = function (e) {
@@ -87,6 +88,15 @@ const projectDisplay = (function () {
         form.style.display = 'none';
     };
     return { onClickAddNewProject };
+})();
+
+const todoDisplay = (function () {
+    const updateSelectedProjectHeader = function () {
+        const activeProject = document.querySelector('#active-project');
+        const header = document.querySelector('#selected-project-name');
+        header.textContent = activeProject.dataset.name;
+    };
+    return { updateSelectedProjectHeader };
 })();
 
 const loadUI = function () {
