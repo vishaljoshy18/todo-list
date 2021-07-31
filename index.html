@@ -8,6 +8,37 @@
         <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
+        <header>
+            <div class="icon">
+                <h2>To-Do List</h2>
+            </div>
+        </header>
+        <main>
+            <div class="sidebar">
+                <div>
+                    <button id="add-new-project">Add</button>
+                    <div class="form-popup">
+                        <form action="" id="add-project-form">
+                            <h2>Add Project</h2>
+                            <label for="project-name-input"></label>
+                            <input
+                                type="text"
+                                name="project-name-input"
+                                id="project-name-input"
+                                placeholder="Enter name.."
+                                required
+                            />
+                            <button type="submit" id="add-project-submit-button">
+                                Add Project
+                            </button>
+                        </form>
+                        <button id="close-project-popupform ">X</button>
+                    </div>
+                </div>
+                <div id="project-display"></div>
+            </div>
+        </main>
+
         <script src="./main.js"></script>
     </body>
 </html>
