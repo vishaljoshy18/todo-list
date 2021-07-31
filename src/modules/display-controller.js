@@ -1,89 +1,96 @@
-import projects from './projects';
-import sidenavDom from './display-components/sidenav-dom';
-import headerDom from './display-components/header-dom';
+import project from './projects';
 
-const sidenav = (function () {
+const sidebar = (function () {
     const initialize = function () {
-        headerDom.createHeader();
-        const main = document.createElement('main');
-        main.appendChild(sidenavDom.createSideNav());
-        document.body.appendChild(main);
-        projectListModule.createDefaultProject();
-        updateProjectList();
-        onClickNewProject();
-        headerDom.updateSelectedProjectHeading('Default');
+        document
+            .querySelector('#add-new-project')
+            .addEventListener('click', projectDisplay.onClickAddNewProject, false);
     };
 
-    const updateProjectList = function () {
-        const projectList = document.querySelector('#project-list');
-        projectList.innerHTML = '';
-        projects.getProjects().forEach((project) => {
-            const projectDiv = sidenavDom.createProjectDiv(project.projectName);
-            console.log(projectDiv);
-            projectList.appendChild(projectDiv);
-            onClickDeleteProject();
-        });
-    };
-    const onClickDeleteProject = function () {
-        const deleteProjectButtons = document.querySelectorAll('#delete-project-button');
-        deleteProjectButtons.forEach((button) => {
-            button.addEventListener('click', projectListModule.deleteProjectFromList);
-        });
-    };
-
-    const onClickNewProject = function () {
-        const openProjectFormButton = document.querySelector('#open-project-form');
-        openProjectFormButton.addEventListener('click', projectListModule.openProjectForm);
-    };
-    const onClickProjectList = function () {
-        const projectList = document.querySelectorAll('#project');
-        projectList.forEach((project) => {
-            project.addEventListener('click', () => {
-                headerDom.updateSelectedProjectHeading(project.dataset.projectname);
-            });
-        });
-    };
-
-    return { initialize, updateProjectList, onClickProjectList };
+    return { initialize };
 })();
 
-const projectListModule = (function () {
-    const openProjectForm = function () {
-        openPopUpForm();
-        const form = document.querySelector('#project-form');
-        form.addEventListener('submit', addNewProject, false);
+const projectDisplay = (function () {
+    const onClickAddNewProject = function () {
+        console.log('add new project ');
+        openPopUp();
+        const form = document.querySelector('#add-project-form');
+        form.addEventListener(
+            'submit',
+            (event) => {
+                event.preventDefault();
+                addNewProject(document.querySelector('#project-name-input').value);
+                form.reset();
+                closePopUp();
+            },
+            { once: true }
+        );
     };
-    const addNewProject = function (event) {
-        event.preventDefault();
-        const projectName = document.querySelector('#project-name').value;
-        projects.createProject(projectName);
-        sidenav.updateProjectList();
-        closePopUpForm();
-        sidenav.onClickProjectList();
+    const addNewProject = function (name) {
+        console.log('Adding ', name, 'To display');
+        project.addProject(name);
+        addProjectToDisplay(name);
+    };
+    const addProjectToDisplay = function (name) {
+        const projectDisplay = document.querySelector('#project-display');
+        const projectDiv = document.createElement('div');
+        projectDiv.textContent = name;
+        projectDiv.setAttribute('id', 'project');
+        projectDiv.setAttribute('data-name', name);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'x';
+        projectDiv.appendChild(deleteButton);
+        projectDisplay.appendChild(projectDiv);
+
+        projectDiv.addEventListener(
+            'click',
+            (e) => {
+                if (e.target != deleteButton) {
+                    setActiveProject(e);
+                }
+            },
+            false
+        );
+
+        deleteButton.addEventListener('click', deleteSelectedProject, { once: true });
     };
 
-    const deleteProjectFromList = function (event) {
-        const projectName = event.target.dataset.projectname;
-        console.log(projectName);
-        projects.deleteProject(projectName);
-        sidenav.updateProjectList();
+    const setActiveProject = function (e) {
+        console.log('active project ...');
+        console.log(e.target);
+        const projectDisplay = document.querySelector('#project-display');
+        console.log(projectDisplay.childNodes);
+        projectDisplay.childNodes.forEach((element) => {
+            element.setAttribute('id', 'project');
+        });
+        e.target.setAttribute('id', 'active-project');
     };
 
-    const createDefaultProject = function () {
-        projects.createProject('Default');
+    const deleteSelectedProject = function (e) {
+        console.log(e.target.parentNode.dataset.name);
+        project.delProject(e.target.parentNode.dataset.name);
+        deleteProjectFromDisplay(e);
+    };
+    const deleteProjectFromDisplay = function (e) {
+        const projectDiv = e.target.parentNode;
+        const projectDisplay = document.querySelector('#project-display');
+        projectDisplay.removeChild(projectDiv);
     };
 
-    const openPopUpForm = function () {
-        document.querySelector('.form-popup').style.display = 'block';
+    const openPopUp = function () {
+        const form = document.querySelector('.form-popup');
+        form.style.display = 'block';
     };
-    const closePopUpForm = function () {
-        document.querySelector('.form-popup').style.display = 'none';
+
+    const closePopUp = function () {
+        const form = document.querySelector('.form-popup');
+        form.style.display = 'none';
     };
-    return { openProjectForm, deleteProjectFromList, createDefaultProject };
+    return { onClickAddNewProject };
 })();
 
-const loadSideNav = function () {
-    sidenav.initialize();
+const loadUI = function () {
+    sidebar.initialize();
 };
 
-export { loadSideNav };
+export default loadUI;

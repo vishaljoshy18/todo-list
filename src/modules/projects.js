@@ -1,30 +1,26 @@
-const projects = (function () {
-    let projects = [];
-    
+let projects = [];
 
-    function projectFactory(name) {
-        return { projectName: name, todoList: [] };
-    }
+function createProject(name) {
+    return { name, todo: [] };
+}
 
-    const createProject = function (projectName) {
-        const newProject = projectFactory(projectName);
+const project = (function () {
+    const addProject = function (name) {
+        const newProject = createProject(name);
         projects.push(newProject);
+        console.log(projects);
     };
-
-    const deleteProject = function (name) {
-        const indexOfProject = projects.findIndex((project) => {
-            if (project.projectName === name) {
+    const delProject = function (name) {
+        const index = projects.findIndex((project) => {
+            if (project.name == name) {
                 return project;
             }
         });
-        projects.splice(indexOfProject, 1);
+        projects.splice(index, 1);
+        console.log(index);
+        console.log(projects);
     };
-
-    const getProjects = function () {
-        return projects;
-    };
-
-    return { createProject, deleteProject, getProjects };
+    return { addProject, delProject };
 })();
 
-export default projects;
+export default project;

@@ -1,3 +1,3 @@
-import { loadSideNav } from './modules/display-controller';
+import loadUI from './modules/display-controller';
 
-loadSideNav();
+loadUI();
