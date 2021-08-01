@@ -11,25 +11,33 @@ const project = (function () {
         console.log(projects);
     };
     const delProject = function (name) {
-        const index = projects.findIndex((project) => {
-            if (project.name == name) {
-                return project;
-            }
-        });
+        const index = getIndexOf(name);
         projects.splice(index, 1);
         console.log(index);
         console.log(projects);
     };
-    const addTodoToActiveProject = function (newTodo, activeProject) {
-        const indexOfActiveProject = projects.findIndex((project) => {
-            if (project.name == activeProject) {
-                return project;
-            }
-        });
+    const addTodoToActiveProject = function (newTodo, activeProjectName) {
+        const indexOfActiveProject = getIndexOf(activeProjectName);
         projects[indexOfActiveProject].todo.push(newTodo);
         console.log(projects);
     };
-    return { addProject, delProject, addTodoToActiveProject };
+
+    const getActiveProject = function (activeProjectName) {
+        const indexOfActiveProject = getIndexOf(activeProjectName);
+        console.log(projects[indexOfActiveProject]);
+        return projects[indexOfActiveProject];
+    };
+
+    const getIndexOf = function (projectName) {
+        const index = projects.findIndex((project) => {
+            if (project.name == projectName) {
+                return project;
+            }
+        });
+        return index;
+    };
+
+    return { addProject, delProject, addTodoToActiveProject, getActiveProject };
 })();
 
 export default project;

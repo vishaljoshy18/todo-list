@@ -73,7 +73,8 @@ const projectDisplay = (function () {
         });
         e.target.setAttribute('id', 'active-project');
         todoDisplay.updateSelectedProjectHeader();
-        todoDisplay.updateSelectedProjectTasks();
+        console.log('update Selected Project Task Display');
+        todoDisplay.updateSelectedProjectTasksDisplay();
     };
 
     const deleteSelectedProject = function (e) {
@@ -128,9 +129,24 @@ const todoDisplay = (function () {
         // addTaskToDisplay(title, description);
         todo.addTask(title, description, activeProjectName);
         console.log(title, description);
+        updateSelectedProjectTasksDisplay();
     };
-    const updateSelectedProjectTasks = function () {
-        console.log('adding tasks to disaply....');
+
+    const updateSelectedProjectTasksDisplay = function () {
+        clearTaskDisplay();
+        const activeProjectName = document.querySelector('#active-project').dataset.name;
+        const activeProject = project.getActiveProject(activeProjectName);
+        console.log('adding tasks to disaply....', activeProject.todo);
+        activeProject.todo.forEach((task) => {
+            addTaskToDisplay(task.title, task.description);
+        });
+    };
+
+    const clearTaskDisplay = function () {
+        const taskDisplay = document.querySelector('#task-display');
+        while (taskDisplay.firstChild) {
+            taskDisplay.removeChild(taskDisplay.lastChild);
+        }
     };
 
     const addTaskToDisplay = function (title, description) {
@@ -154,7 +170,7 @@ const todoDisplay = (function () {
         const form = document.querySelector('.task-form-popup');
         form.style.display = 'none';
     };
-    return { updateSelectedProjectHeader, onClickAddNewTask, updateSelectedProjectTasks };
+    return { updateSelectedProjectHeader, onClickAddNewTask, updateSelectedProjectTasksDisplay };
 })();
 
 const loadUI = function () {
