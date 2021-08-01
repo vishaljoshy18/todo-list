@@ -1,19 +1,6 @@
 import project from './projects';
 import todo from './to-do';
 
-const sidebar = (function () {
-    const initialize = function () {
-        document
-            .querySelector('#add-new-project')
-            .addEventListener('click', projectDisplay.onClickAddNewProject, false);
-        document
-            .querySelector('#add-new-task')
-            .addEventListener('click', todoDisplay.onClickAddNewTask, false);
-    };
-
-    return { initialize };
-})();
-
 const projectDisplay = (function () {
     const onClickAddNewProject = function () {
         console.log('add new project ');
@@ -174,7 +161,12 @@ const todoDisplay = (function () {
 })();
 
 const loadUI = function () {
-    sidebar.initialize();
+    document
+        .querySelector('#add-new-project')
+        .addEventListener('click', projectDisplay.onClickAddNewProject, false);
+    document
+        .querySelector('#add-new-task')
+        .addEventListener('click', todoDisplay.onClickAddNewTask, false);
 };
 
-export default loadUI;
+export default loadUI ;
