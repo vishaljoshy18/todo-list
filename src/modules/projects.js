@@ -12,25 +12,25 @@ const project = (function () {
 	};
 
 	const delProject = function (name) {
-		const index = getIndexOf(name);
+		const index = _getIndexOf(name);
 		projects.splice(index, 1);
 		console.log(index);
 		console.log(projects);
 	};
 
 	const addTaskToActiveProject = function (newTodo, activeProjectName) {
-		const indexOfActiveProject = getIndexOf(activeProjectName);
+		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		projects[indexOfActiveProject].todo.push(newTodo);
 		console.log(projects);
 	};
 
 	const getActiveProject = function (activeProjectName) {
-		const indexOfActiveProject = getIndexOf(activeProjectName);
+		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		console.log(projects[indexOfActiveProject]);
 		return projects[indexOfActiveProject];
 	};
 
-	const getIndexOf = function (projectName) {
+	const _getIndexOf = function (projectName) {
 		const index = projects.findIndex((project) => {
 			if (project.name == projectName) {
 				return project;
@@ -39,7 +39,24 @@ const project = (function () {
 		return index;
 	};
 
-	return { addProject, delProject, addTaskToActiveProject, getActiveProject };
+	const deleteTodoFormProject = function (taskName, activeProjectName) {
+		console.log('delete', taskName, 'from', activeProjectName);
+
+		const indexOfActiveProject = _getIndexOf(activeProjectName);
+		console.log(projects);
+		projects[indexOfActiveProject].todo = projects[indexOfActiveProject].todo.filter(
+			(todo) => todo.title != taskName
+		);
+		console.log(projects);
+	};
+
+	return {
+		addProject,
+		delProject,
+		addTaskToActiveProject,
+		getActiveProject,
+		deleteTodoFormProject,
+	};
 })();
 
 export default project;

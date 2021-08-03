@@ -133,6 +133,8 @@ const todoDisplay = (function () {
 		_clearTaskDisplay();
 		const activeProjectName = document.querySelector('#active-project').dataset.name;
 		const activeProject = project.getActiveProject(activeProjectName);
+
+		console.log('adding tasks to display....', activeProject);
 		console.log('adding tasks to display....', activeProject.todo);
 		activeProject.todo.forEach((task) => {
 			_addTaskToDisplay(task.title, task.description);
@@ -155,6 +157,7 @@ const todoDisplay = (function () {
 	const _createTaskDiv = function (title, description) {
 		const div = document.createElement('div');
 		div.setAttribute('id', 'task');
+		div.setAttribute('data-name', title);
 		const checkbox = document.createElement('input');
 		checkbox.type = 'checkbox';
 		const displayTitle = document.createElement('title');
@@ -167,9 +170,7 @@ const todoDisplay = (function () {
 		div.appendChild(displayTitle);
 		div.appendChild(displayDescription);
 		div.appendChild(deleteTaskButton);
-		deleteTaskButton.addEventListener('click', () => {
-			console.log('deleteTask');
-		});
+		deleteTaskButton.addEventListener('click', _deleteTask);
 		checkbox.addEventListener(
 			'click',
 			(e) => {
@@ -180,6 +181,12 @@ const todoDisplay = (function () {
 			{ once: true }
 		);
 		return div;
+	};
+	const _deleteTask = function (e) {
+		console.log(e.target.parentNode);
+		const activeProject = document.querySelector('#active-project');
+		project.deleteTodoFormProject(e.target.parentNode.dataset.name, activeProject.dataset.name);
+		updateTasksDisplay();
 	};
 
 	const _openPopUpForm = function () {
