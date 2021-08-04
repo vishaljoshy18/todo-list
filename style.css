@@ -10,6 +10,10 @@ header {
 	color: #eceff4;
 }
 
+.icon {
+	margin-left: 20px;
+}
+
 /* main */
 main {
 	display: flex;
@@ -29,6 +33,10 @@ main {
 	display: flex;
 	justify-content: center;
 }
+#project-display {
+	margin-top: 10px;
+}
+
 #project {
 	color: #e5e9f0;
 	padding: 1rem;
@@ -65,6 +73,12 @@ main {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	flex: 1;
+}
+.selected-project-name-container {
+	width: 100%;
+	background: #d8dee9;
+	text-align: center;
 }
 #selected-project-name {
 	padding: 1rem;
@@ -89,8 +103,9 @@ main {
 	flex-direction: column;
 	align-items: center;
 }
-
+/* Add Project button */
 .bn3637 {
+	margin-left: 5px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -113,4 +128,18 @@ main {
 
 .bn36:hover {
 	transform: perspective(1px) scale3d(1.044, 1.044, 1) translateZ(0) !important;
+}
+/* overlay */
+#overlay {
+	position: fixed; /* Sit on top of the page content */
+	display: none; /* Hidden by default */
+	width: 100%; /* Full width (cover the whole page) */
+	height: 100%; /* Full height (cover the whole page) */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+	z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+	cursor: pointer; /* Add a pointer on hover */
 }
