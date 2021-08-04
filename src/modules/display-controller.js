@@ -3,25 +3,19 @@ import todo from './to-do';
 
 const projectDisplay = (function () {
 	const onClickAddNewProject = function () {
-		console.log('add new project ');
+		console.log('add project click ');
 		_openPopUpForm();
 		const form = document.querySelector('#add-project-form');
-		form.addEventListener(
-			'submit',
-			(event) => {
-				event.preventDefault();
-				__addNewProject(document.querySelector('#project-name-input').value);
-				form.reset();
-				_closePopUpForm();
-			},
-			{ once: true }
-		);
+		form.addEventListener('submit', __addNewProject, { once: true });
 	};
 
-	const __addNewProject = function (name) {
-		console.log('Adding ', name);
-		project.addProject(name);
-		_addProjectToDisplay(name);
+	const __addNewProject = function (event) {
+		event.preventDefault();
+		const projectName = document.querySelector('#project-name-input').value;
+		console.log('Adding ', projectName);
+		project.addProject(projectName);
+		_addProjectToDisplay(projectName);
+		_closePopUpForm();
 	};
 
 	const _addProjectToDisplay = function (name) {
@@ -86,11 +80,21 @@ const projectDisplay = (function () {
 	const _openPopUpForm = function () {
 		const form = document.querySelector('.project-form-popup');
 		form.style.display = 'block';
+		document.querySelector('#overlay').style.display = 'block';
+		window.onclick = (event) => {
+			const overlay = document.getElementById('overlay');
+			if (event.target == overlay) {
+				document.querySelector('#add-project-form').reset();
+				_closePopUpForm();
+			}
+		};
 	};
 
 	const _closePopUpForm = function () {
 		const form = document.querySelector('.project-form-popup');
 		form.style.display = 'none';
+		document.querySelector('#add-project-form').reset();
+		document.querySelector('#overlay').style.display = 'none';
 	};
 
 	return { onClickAddNewProject };
@@ -133,8 +137,6 @@ const todoDisplay = (function () {
 		_clearTaskDisplay();
 		const activeProjectName = document.querySelector('#active-project').dataset.name;
 		const activeProject = project.getActiveProject(activeProjectName);
-
-		console.log('adding tasks to display....', activeProject);
 		console.log('adding tasks to display....', activeProject.todo);
 		activeProject.todo.forEach((task) => {
 			_addTaskToDisplay(task.title, task.description);
