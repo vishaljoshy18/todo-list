@@ -113,23 +113,28 @@ const todoDisplay = (function () {
 		const form = document.querySelector('#add-task-form');
 		form.addEventListener(
 			'submit',
-			(event) => {
-				event.preventDefault();
-				const title = document.querySelector('#task-title').value;
-				const description = document.querySelector('#task-description').value;
-				const activeProjectName = document.querySelector('#active-project').dataset.name;
-				__addNewTask(title, description, activeProjectName);
-				form.reset();
-				_closePopUpForm();
-			},
+			__addNewTask,
+			// (event) => {
+			// 	event.preventDefault();
+			// 	const title = document.querySelector('#task-title').value;
+			// 	const description = document.querySelector('#task-description').value;
+			// 	const activeProjectName = document.querySelector('#active-project').dataset.name;
+			// 	__addNewTask(title, description, activeProjectName);
+			// 	form.reset();
+			// 	_closePopUpForm();
+			// },
 			{ once: true }
 		);
 	};
 
-	const __addNewTask = function (title, description, activeProjectName) {
-		// addTaskToDisplay(title, description);
+	const __addNewTask = function (e) {
+		e.preventDefault();
+		const title = document.querySelector('#task-title').value;
+		const description = document.querySelector('#task-description').value;
+		const activeProjectName = document.querySelector('#active-project').dataset.name;
 		todo.addTask(title, description, activeProjectName);
 		console.log(title, description);
+		_closePopUpForm();
 		updateTasksDisplay();
 	};
 
@@ -194,12 +199,23 @@ const todoDisplay = (function () {
 	const _openPopUpForm = function () {
 		const form = document.querySelector('.task-form-popup');
 		form.style.display = 'block';
+		document.querySelector('#overlay').style.display = 'block';
+		window.onclick = (event) => {
+			const overlay = document.getElementById('overlay');
+			if (event.target == overlay) {
+				document.querySelector('#add-project-form').reset();
+				_closePopUpForm();
+			}
+		};
 	};
 
 	const _closePopUpForm = function () {
 		const form = document.querySelector('.task-form-popup');
 		form.style.display = 'none';
+		document.querySelector('#add-task-form').reset();
+		document.querySelector('#overlay').style.display = 'none';
 	};
+
 	return { updateProjectHeader, onClickAddNewTask, updateTasksDisplay };
 })();
 
