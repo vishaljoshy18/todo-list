@@ -31,7 +31,12 @@ const project = (function () {
 		return projects[indexOfActiveProject];
 	};
 	const _sortTasksByDate = function (todoArray) {
-		console.log(todoArray);
+		if (todoArray.length > 1) {
+			console.log(todoArray[0].date);
+			todoArray.sort(function (a, b) {
+				return new Date(a.date) - new Date(b.date);
+			});
+		}
 	};
 
 	const _getIndexOf = function (projectName) {

@@ -1,5 +1,6 @@
 import project from './projects';
 import todo from './to-do';
+import { format } from 'date-fns';
 
 const projectDisplay = (function () {
 	const onClickAddNewProject = function () {
@@ -180,10 +181,11 @@ const todoDisplay = (function () {
 		const displayTitle = document.createElement('div');
 		const displayDescription = document.createElement('div');
 		const displayDate = document.createElement('div');
+
 		const deleteTaskButton = document.createElement('button');
 		displayTitle.textContent = title;
 		displayDescription.textContent = description;
-		displayDate.textContent = date;
+		displayDate.textContent = _changeDateFormat(date);
 		deleteTaskButton.textContent = 'x';
 		div.appendChild(checkbox);
 		div.appendChild(displayTitle);
@@ -202,6 +204,15 @@ const todoDisplay = (function () {
 		);
 		return div;
 	};
+	const _changeDateFormat = function (date) {
+		const dateArray = date.split('-');
+		const formattedDate = format(
+			new Date(dateArray[0], dateArray[1] - 1, dateArray[2]),
+			'dd/MM/yyyy'
+		);
+		return formattedDate;
+	};
+
 	const _deleteTask = function (e) {
 		console.log(e.target.parentNode);
 		const activeProject = document.querySelector('#active-project');
