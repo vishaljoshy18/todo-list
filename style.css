@@ -1,3 +1,7 @@
+title {
+	display: block;
+}
+
 body {
 	display: flex;
 	flex-direction: column;
@@ -53,21 +57,35 @@ main {
 .project-form-popup {
 	display: none;
 	position: fixed;
-	left: 45%;
-	top: 5%;
+	left: 40vw;
+	top: 20vh;
 	transform: translate(-45%, 15%);
-	border: 3px solid #999999;
+	border: 3px solid #d8dee9;
 	z-index: 9;
+	border-radius: 12px;
 }
 
 #add-project-form {
 	max-width: 300px;
 	padding: 50px;
-	background-color: #fff;
+	background-color: #2e3440;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	color: #eceff4;
+	border-radius: 12px;
 }
+#add-project-submit-button {
+	border-radius: 6px;
+	padding: 0.5rem;
+	margin: 1em;
+	background-color: #eceff4;
+	color: #2e3440;
+}
+#project-name-input {
+	padding: 0.5rem;
+	background: #eceff4;
+}
+
 /* todo */
 .todo-container {
 	display: flex;
@@ -79,8 +97,11 @@ main {
 	width: 100%;
 	background: #d8dee9;
 	text-align: center;
+	display: flex;
+    justify-content: space-around;
 }
 #selected-project-name {
+	width: 50%;
 	padding: 1rem;
 	margin: 0px;
 	height: 1rem;
@@ -103,6 +124,25 @@ main {
 	flex-direction: column;
 	align-items: center;
 }
+
+#task-display {
+	width: 80%;
+}
+#task {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#task input {
+	width: 5rem;
+}
+#task title {
+	width: 10rem;
+}
+#task description{
+	width: 20rem;
+}
+
 /* Add Project button */
 .bn3637 {
 	margin-left: 5px;
