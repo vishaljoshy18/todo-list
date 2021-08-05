@@ -16,7 +16,7 @@
 		<main>
 			<div class="sidebar">
 				<div>
-					<button id="add-new-project" class="bn3637 bn36">Add Project</button>
+					<button id="add-new-project" class="bn3637 bn36">+ Project</button>
 					<div class="project-form-popup">
 						<form action="" id="add-project-form">
 							<h2>Add Project</h2>
@@ -41,7 +41,7 @@
 				<div class="selected-project-name-container">
 					<h3 id="selected-project-name"></h3>
 
-					<button id="add-new-task">Add New Task</button>
+					<button id="add-new-task">+ New Task</button>
 				</div>
 				<div>
 					<div class="task-form-popup">
@@ -60,7 +60,12 @@
 							></textarea>
 
 							<label for="task-date">Date</label>
-							<input type="date" name="task-date" id="task-date" />
+							<input
+								type="date"
+								name="task-date"
+								id="task-date"
+								required
+							/>
 							<button type="submit">Submit</button>
 						</form>
 					</div>
