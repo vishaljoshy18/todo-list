@@ -163,16 +163,27 @@ main {
 	margin: 5px;
 	justify-content: space-between;
 }
-#task input {
-	width: 5rem;
-}
 #task title {
 	width: 10rem;
 }
 #task description {
 	width: 20rem;
 }
-
+#display-task-title {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#display-task-description {
+	flex: 1;
+	margin-left: 50px;
+}
+#display-task-date {
+	margin-right: 20px;
+}
+.completed-task {
+	text-decoration: line-through;
+	opacity: 0.5;
+}
 /* Add Project button */
 .bn3637 {
 	margin-left: 5px;
