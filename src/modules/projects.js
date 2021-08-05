@@ -49,13 +49,33 @@ const project = (function () {
 		);
 		console.log(projects);
 	};
-
+	const checkForDuplicateProjectName = function (projectName) {
+		const index = _getIndexOf(projectName);
+		if (index) {
+			return false;
+		}
+		return true;
+	};
+	const checkForDuplicateTask = function (taskTitle, projectName) {
+		const projectIndex = _getIndexOf(projectName);
+		const taskIndex = projects[projectIndex].todo.findIndex((todo) => {
+			if (todo.title === taskTitle) {
+				return todo;
+			}
+		});
+		if (taskIndex) {
+			return false;
+		}
+		return true;
+	};
 	return {
 		addProject,
 		delProject,
 		addTaskToActiveProject,
 		getActiveProject,
 		deleteTodoFormProject,
+		checkForDuplicateProjectName,
+		checkForDuplicateTask,
 	};
 })();
 

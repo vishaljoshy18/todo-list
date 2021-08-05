@@ -12,12 +12,19 @@ const projectDisplay = (function () {
 	const __addNewProject = function (event) {
 		event.preventDefault();
 		const projectName = document.querySelector('#project-name-input').value;
-		console.log('Adding ', projectName);
-		project.addProject(projectName);
-		_addProjectToDisplay(projectName);
+
+		if (_checkIfDuplicate(projectName)) {
+			alert('project with same exists ');
+		} else {
+			console.log('Adding ', projectName);
+			project.addProject(projectName);
+			_addProjectToDisplay(projectName);
+		}
 		_closePopUpForm();
 	};
-
+	const _checkIfDuplicate = function (projectName) {
+		return project.checkForDuplicateProjectName(projectName);
+	};
 	const _addProjectToDisplay = function (name) {
 		const projectDisplay = document.querySelector('#project-display');
 		_clearProjectSelection();
@@ -111,20 +118,7 @@ const todoDisplay = (function () {
 		console.log('add task...');
 		_openPopUpForm();
 		const form = document.querySelector('#add-task-form');
-		form.addEventListener(
-			'submit',
-			__addNewTask,
-			// (event) => {
-			// 	event.preventDefault();
-			// 	const title = document.querySelector('#task-title').value;
-			// 	const description = document.querySelector('#task-description').value;
-			// 	const activeProjectName = document.querySelector('#active-project').dataset.name;
-			// 	__addNewTask(title, description, activeProjectName);
-			// 	form.reset();
-			// 	_closePopUpForm();
-			// },
-			{ once: true }
-		);
+		form.addEventListener('submit', __addNewTask, { once: true });
 	};
 
 	const __addNewTask = function (e) {
@@ -132,12 +126,18 @@ const todoDisplay = (function () {
 		const title = document.querySelector('#task-title').value;
 		const description = document.querySelector('#task-description').value;
 		const activeProjectName = document.querySelector('#active-project').dataset.name;
-		todo.addTask(title, description, activeProjectName);
-		console.log(title, description);
+		if (_checkIfDuplicateTask(title, activeProjectName)) {
+			alert('task with same name exists');
+		} else {
+			todo.addTask(title, description, activeProjectName);
+			console.log(title, description);
+			updateTasksDisplay();
+		}
 		_closePopUpForm();
-		updateTasksDisplay();
 	};
-
+	const _checkIfDuplicateTask = function (title, activeProjectName) {
+		return project.checkForDuplicateTask(title, activeProjectName);
+	};
 	const updateTasksDisplay = function () {
 		_clearTaskDisplay();
 		const activeProjectName = document.querySelector('#active-project').dataset.name;
