@@ -179,8 +179,11 @@ const todoDisplay = (function () {
 		const checkbox = document.createElement('input');
 		checkbox.type = 'checkbox';
 		const displayTitle = document.createElement('div');
+		displayTitle.setAttribute('id', 'display-task-title');
 		const displayDescription = document.createElement('div');
+		displayDescription.setAttribute('id', 'display-task-description');
 		const displayDate = document.createElement('div');
+		displayDate.setAttribute('id', 'display-task-date');
 
 		const deleteTaskButton = document.createElement('button');
 		displayTitle.textContent = title;
@@ -197,7 +200,7 @@ const todoDisplay = (function () {
 			'click',
 			(e) => {
 				console.log(e.target.parentNode);
-				e.target.parentNode.style.color = 'red';
+				e.target.parentNode.classList.add('completed-task');
 				checkbox.disabled = true;
 			},
 			{ once: true }
