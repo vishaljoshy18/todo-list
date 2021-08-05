@@ -27,7 +27,11 @@ const project = (function () {
 	const getActiveProject = function (activeProjectName) {
 		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		console.log(projects[indexOfActiveProject]);
+		_sortTasksByDate(projects[indexOfActiveProject].todo);
 		return projects[indexOfActiveProject];
+	};
+	const _sortTasksByDate = function (todoArray) {
+		console.log(todoArray);
 	};
 
 	const _getIndexOf = function (projectName) {
