@@ -51,12 +51,16 @@
 							<input type="text" id="task-title" placeholder="Title" required />
 
 							<label for="task-title">Description</label>
-							<input
-								type="text"
+							<textarea
+								name="task-description"
 								id="task-description"
-								placeholder="Description"
+								cols="0"
+								rows="4"
 								required
-							/>
+							></textarea>
+
+							<label for="task-date">Date</label>
+							<input type="date" name="task-date" id="task-date" />
 							<button type="submit">Submit</button>
 						</form>
 					</div>

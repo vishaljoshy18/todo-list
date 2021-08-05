@@ -98,7 +98,7 @@ main {
 	background: #d8dee9;
 	text-align: center;
 	display: flex;
-    justify-content: space-around;
+	justify-content: space-around;
 }
 #selected-project-name {
 	width: 50%;
@@ -109,20 +109,29 @@ main {
 .task-form-popup {
 	display: none;
 	position: fixed;
-	left: 45%;
-	top: 5%;
+	left: 45vw;
+	top: 20vh;
 	transform: translate(-45%, 15%);
-	border: 3px solid #999999;
+	border: 3px solid #d8dee9;
 	z-index: 9;
+	border-radius: 12px;
 }
 
 #add-task-form {
+	width: 250px;
 	max-width: 300px;
 	padding: 50px;
-	background-color: #fff;
+	background-color: #2e3440;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	color: #eceff4;
+	border-radius: 12px;
+}
+#task-title {
+	padding: 0.5rem;
+}
+#task-date {
+	padding: 0.5rem;
 }
 
 #task-display {
@@ -139,7 +148,7 @@ main {
 #task title {
 	width: 10rem;
 }
-#task description{
+#task description {
 	width: 20rem;
 }
 
