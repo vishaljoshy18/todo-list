@@ -125,12 +125,13 @@ const todoDisplay = (function () {
 		e.preventDefault();
 		const title = document.querySelector('#task-title').value;
 		const description = document.querySelector('#task-description').value;
+		const date = document.querySelector('#task-date').value;
 		const activeProjectName = document.querySelector('#active-project').dataset.name;
 		if (_checkIfDuplicateTask(title, activeProjectName)) {
 			alert('task with same name exists');
 		} else {
-			todo.addTask(title, description, activeProjectName);
-			console.log(title, description);
+			todo.addTask(title, description, date, activeProjectName);
+			console.log(title, description, date);
 			updateTasksDisplay();
 		}
 		_closePopUpForm();
@@ -144,7 +145,7 @@ const todoDisplay = (function () {
 		const activeProject = project.getActiveProject(activeProjectName);
 		console.log('adding tasks to display....', activeProject.todo);
 		activeProject.todo.forEach((task) => {
-			_addTaskToDisplay(task.title, task.description);
+			_addTaskToDisplay(task.title, task.description, task.date);
 		});
 	};
 
@@ -155,27 +156,30 @@ const todoDisplay = (function () {
 		}
 	};
 
-	const _addTaskToDisplay = function (title, description) {
+	const _addTaskToDisplay = function (title, description, date) {
 		const taskDisplay = document.querySelector('#task-display');
 
-		taskDisplay.appendChild(_createTaskDiv(title, description));
+		taskDisplay.appendChild(_createTaskDiv(title, description, date));
 	};
 
-	const _createTaskDiv = function (title, description) {
+	const _createTaskDiv = function (title, description, date) {
 		const div = document.createElement('div');
 		div.setAttribute('id', 'task');
 		div.setAttribute('data-name', title);
 		const checkbox = document.createElement('input');
 		checkbox.type = 'checkbox';
-		const displayTitle = document.createElement('title');
-		const displayDescription = document.createElement('description');
+		const displayTitle = document.createElement('div');
+		const displayDescription = document.createElement('div');
+		const displayDate = document.createElement('div');
 		const deleteTaskButton = document.createElement('button');
 		displayTitle.textContent = title;
 		displayDescription.textContent = description;
+		displayDate.textContent = date;
 		deleteTaskButton.textContent = 'x';
 		div.appendChild(checkbox);
 		div.appendChild(displayTitle);
 		div.appendChild(displayDescription);
+		div.appendChild(displayDate);
 		div.appendChild(deleteTaskButton);
 		deleteTaskButton.addEventListener('click', _deleteTask);
 		checkbox.addEventListener(
