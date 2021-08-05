@@ -118,7 +118,17 @@ const todoDisplay = (function () {
 		console.log('add task...');
 		_openPopUpForm();
 		const form = document.querySelector('#add-task-form');
+		_setMinDate();
 		form.addEventListener('submit', __addNewTask, { once: true });
+	};
+	const _setMinDate = function () {
+		const taskFormDate = document.querySelector('#task-date');
+		const today = new Date();
+		const dd = String(today.getDate()).padStart(2, '0');
+		const mm = String(today.getMonth() + 1).padStart(2, '0');
+		const yyyy = today.getFullYear();
+		const date = `${yyyy}-${mm}-${dd}`;
+		taskFormDate.setAttribute('min', date);
 	};
 
 	const __addNewTask = function (e) {
@@ -158,7 +168,6 @@ const todoDisplay = (function () {
 
 	const _addTaskToDisplay = function (title, description, date) {
 		const taskDisplay = document.querySelector('#task-display');
-
 		taskDisplay.appendChild(_createTaskDiv(title, description, date));
 	};
 
