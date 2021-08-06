@@ -91,13 +91,14 @@ const projectDisplay = (function () {
 		if (!document.querySelector('#active-project')) {
 			console.log('no active project');
 			const projectDisplay = document.querySelector('#project-display');
+
 			if (document.querySelector('#project')) {
 				projectDisplay.firstChild.setAttribute('id', 'active-project');
-				todoDisplay.updateProjectHeader();
-				todoDisplay.updateTasksDisplay();
 				console.log(projectDisplay);
 			}
 		}
+		todoDisplay.updateProjectHeader();
+		todoDisplay.updateTasksDisplay();
 	};
 
 	const _deleteProjectFromDisplay = function (e) {
@@ -132,8 +133,13 @@ const projectDisplay = (function () {
 const todoDisplay = (function () {
 	const updateProjectHeader = function () {
 		const activeProject = document.querySelector('#active-project');
+
 		const header = document.querySelector('#selected-project-name');
-		header.textContent = activeProject.dataset.name;
+		if (!activeProject) {
+			header.textContent = '';
+		} else {
+			header.textContent = activeProject.dataset.name;
+		}
 	};
 
 	const onClickAddNewTask = function () {
@@ -173,12 +179,14 @@ const todoDisplay = (function () {
 	};
 	const updateTasksDisplay = function () {
 		_clearTaskDisplay();
-		const activeProjectName = document.querySelector('#active-project').dataset.name;
-		const activeProject = project.getActiveProject(activeProjectName);
-		console.log('adding tasks to display....', activeProject.todo);
-		activeProject.todo.forEach((task) => {
-			_addTaskToDisplay(task.title, task.description, task.date);
-		});
+		if (document.querySelector('#active-project')) {
+			const activeProjectName = document.querySelector('#active-project').dataset.name;
+			const activeProject = project.getActiveProject(activeProjectName);
+			console.log('adding tasks to display....', activeProject.todo);
+			activeProject.todo.forEach((task) => {
+				_addTaskToDisplay(task.title, task.description, task.date);
+			});
+		}
 	};
 
 	const _clearTaskDisplay = function () {
