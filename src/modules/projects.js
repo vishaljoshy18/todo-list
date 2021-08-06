@@ -83,11 +83,7 @@ const project = (function () {
 	};
 	const checkForDuplicateTask = function (taskTitle, projectName) {
 		const projectIndex = _getIndexOf(projectName);
-		const taskIndex = projects[projectIndex].todo.findIndex((todo) => {
-			if (todo.title === taskTitle) {
-				return todo;
-			}
-		});
+		const taskIndex = _getTaskIndex(projectIndex, taskTitle);
 		if (taskIndex) {
 			return false;
 		}
@@ -98,14 +94,18 @@ const project = (function () {
 	};
 	const taskCompleted = function (taskTitle, projectName) {
 		const projectIndex = _getIndexOf(projectName);
+		const taskIndex = _getTaskIndex(projectIndex, taskTitle);
+		projects[projectIndex].todo[taskIndex].completionStatus = true;
+
+		_addProjectToLocalStorage();
+	};
+	const _getTaskIndex = function (projectIndex, taskTitle) {
 		const taskIndex = projects[projectIndex].todo.findIndex((todo) => {
 			if (todo.title === taskTitle) {
 				return todo;
 			}
 		});
-		projects[projectIndex].todo[taskIndex].completionStatus = true;
-
-		_addProjectToLocalStorage();
+		return taskIndex;
 	};
 
 	return {
