@@ -9,6 +9,17 @@ const project = (function () {
 		const newProject = createProject(name);
 		projects.push(newProject);
 		console.log(projects);
+		addProjectToLocalStorage();
+	};
+	const addProjectToLocalStorage = function () {
+		localStorage.setItem('storedProjects', JSON.stringify(projects));
+	};
+	const getProjectFromLocalStorage = function () {
+		if (localStorage.length != 0) {
+			const projectsFromStorage = JSON.parse(localStorage.getItem('storedProjects'));
+			console.log('form storage', projectsFromStorage);
+			projects = projectsFromStorage;
+		}
 	};
 
 	const delProject = function (name) {
@@ -16,11 +27,13 @@ const project = (function () {
 		projects.splice(index, 1);
 		console.log(index);
 		console.log(projects);
+		addProjectToLocalStorage();
 	};
 
 	const addTaskToActiveProject = function (newTodo, activeProjectName) {
 		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		projects[indexOfActiveProject].todo.push(newTodo);
+		addProjectToLocalStorage();
 		console.log(projects);
 	};
 
@@ -57,6 +70,8 @@ const project = (function () {
 			(todo) => todo.title != taskName
 		);
 		console.log(projects);
+
+		addProjectToLocalStorage();
 	};
 	const checkForDuplicateProjectName = function (projectName) {
 		const index = _getIndexOf(projectName);
@@ -77,7 +92,11 @@ const project = (function () {
 		}
 		return true;
 	};
+	const getProjects = function () {
+		return projects;
+	};
 	return {
+		getProjects,
 		addProject,
 		delProject,
 		addTaskToActiveProject,
@@ -85,6 +104,7 @@ const project = (function () {
 		deleteTodoFormProject,
 		checkForDuplicateProjectName,
 		checkForDuplicateTask,
+		getProjectFromLocalStorage,
 	};
 })();
 

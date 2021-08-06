@@ -13,28 +13,39 @@ const projectDisplay = (function () {
 	const __addNewProject = function (event) {
 		event.preventDefault();
 		const projectName = document.querySelector('#project-name-input').value;
-
 		if (_checkIfDuplicate(projectName)) {
 			alert('project with same exists ');
 		} else {
+			_clearProjectDisplay();
 			console.log('Adding ', projectName);
 			project.addProject(projectName);
-			_addProjectToDisplay(projectName);
+			updateProjectToDisplay();
 		}
 		_closePopUpForm();
 	};
+
 	const _checkIfDuplicate = function (projectName) {
 		return project.checkForDuplicateProjectName(projectName);
 	};
-	const _addProjectToDisplay = function (name) {
-		const projectDisplay = document.querySelector('#project-display');
-		_clearProjectSelection();
-		const projectDiv = _createProjectDiv(name);
-		projectDisplay.appendChild(projectDiv);
-		todoDisplay.updateProjectHeader();
-		todoDisplay.updateTasksDisplay();
+	const updateProjectToDisplay = function () {
+		const projects = project.getProjects();
+		console.log('project', projects);
+		projects.forEach((project) => {
+			const projectDisplay = document.querySelector('#project-display');
+			_clearProjectSelection();
+			const projectDiv = _createProjectDiv(project.name);
+			projectDisplay.appendChild(projectDiv);
+			todoDisplay.updateProjectHeader();
+			todoDisplay.updateTasksDisplay();
+		});
 	};
 
+	const _clearProjectDisplay = function () {
+		const projectDisplay = document.querySelector('#project-display');
+		while (projectDisplay.firstChild) {
+			projectDisplay.removeChild(projectDisplay.lastChild);
+		}
+	};
 	const _createProjectDiv = function (name) {
 		const projectDiv = document.createElement('div');
 		projectDiv.textContent = name;
@@ -105,7 +116,7 @@ const projectDisplay = (function () {
 		document.querySelector('#overlay').style.display = 'none';
 	};
 
-	return { onClickAddNewProject };
+	return { onClickAddNewProject, updateProjectToDisplay };
 })();
 
 const todoDisplay = (function () {
@@ -253,6 +264,8 @@ const loadUI = function () {
 	document
 		.querySelector('#add-new-task')
 		.addEventListener('click', todoDisplay.onClickAddNewTask, false);
+	project.getProjectFromLocalStorage();
+	projectDisplay.updateProjectToDisplay();
 };
 
 export default loadUI;
