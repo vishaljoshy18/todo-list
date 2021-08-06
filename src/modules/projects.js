@@ -73,6 +73,7 @@ const project = (function () {
 
 		addProjectToLocalStorage();
 	};
+	
 	const checkForDuplicateProjectName = function (projectName) {
 		const index = _getIndexOf(projectName);
 		if (index) {

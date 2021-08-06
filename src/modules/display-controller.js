@@ -88,6 +88,16 @@ const projectDisplay = (function () {
 		console.log(e.target.parentNode.dataset.name);
 		project.delProject(e.target.parentNode.dataset.name);
 		_deleteProjectFromDisplay(e);
+		if (!document.querySelector('#active-project')) {
+			console.log('no active project');
+			const projectDisplay = document.querySelector('#project-display');
+			if (document.querySelector('#project')) {
+				projectDisplay.firstChild.setAttribute('id', 'active-project');
+				todoDisplay.updateProjectHeader();
+				todoDisplay.updateTasksDisplay();
+				console.log(projectDisplay);
+			}
+		}
 	};
 
 	const _deleteProjectFromDisplay = function (e) {
