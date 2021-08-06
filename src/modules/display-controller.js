@@ -184,7 +184,7 @@ const todoDisplay = (function () {
 			const activeProject = project.getActiveProject(activeProjectName);
 			console.log('adding tasks to display....', activeProject.todo);
 			activeProject.todo.forEach((task) => {
-				_addTaskToDisplay(task.title, task.description, task.date);
+				_addTaskToDisplay(task.title, task.description, task.date, task.completionStatus);
 			});
 		}
 	};
@@ -196,12 +196,12 @@ const todoDisplay = (function () {
 		}
 	};
 
-	const _addTaskToDisplay = function (title, description, date) {
+	const _addTaskToDisplay = function (title, description, date, completionStatus) {
 		const taskDisplay = document.querySelector('#task-display');
-		taskDisplay.appendChild(_createTaskDiv(title, description, date));
+		taskDisplay.appendChild(_createTaskDiv(title, description, date, completionStatus));
 	};
 
-	const _createTaskDiv = function (title, description, date) {
+	const _createTaskDiv = function (title, description, date, completionStatus) {
 		const div = document.createElement('div');
 		div.setAttribute('id', 'task');
 		div.setAttribute('data-name', title);
@@ -225,11 +225,20 @@ const todoDisplay = (function () {
 		div.appendChild(displayDate);
 		div.appendChild(deleteTaskButton);
 		deleteTaskButton.addEventListener('click', _deleteTask);
+
+		if (completionStatus === true) {
+			div.classList.add('completed-task');
+			checkbox.checked = true;
+			checkbox.disabled = true;
+		}
+
 		checkbox.addEventListener(
 			'click',
 			(e) => {
-				console.log(e.target.parentNode);
+				console.log(e.target.parentNode.dataset.name);
 				e.target.parentNode.classList.add('completed-task');
+				const activeProjectName = document.querySelector('#active-project').dataset.name;
+				project.taskCompleted(e.target.parentNode.dataset.name, activeProjectName);
 				checkbox.disabled = true;
 			},
 			{ once: true }

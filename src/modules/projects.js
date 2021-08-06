@@ -9,9 +9,9 @@ const project = (function () {
 		const newProject = createProject(name);
 		projects.push(newProject);
 		console.log(projects);
-		addProjectToLocalStorage();
+		_addProjectToLocalStorage();
 	};
-	const addProjectToLocalStorage = function () {
+	const _addProjectToLocalStorage = function () {
 		localStorage.setItem('storedProjects', JSON.stringify(projects));
 	};
 	const getProjectFromLocalStorage = function () {
@@ -27,13 +27,13 @@ const project = (function () {
 		projects.splice(index, 1);
 		console.log(index);
 		console.log(projects);
-		addProjectToLocalStorage();
+		_addProjectToLocalStorage();
 	};
 
 	const addTaskToActiveProject = function (newTodo, activeProjectName) {
 		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		projects[indexOfActiveProject].todo.push(newTodo);
-		addProjectToLocalStorage();
+		_addProjectToLocalStorage();
 		console.log(projects);
 	};
 
@@ -71,9 +71,9 @@ const project = (function () {
 		);
 		console.log(projects);
 
-		addProjectToLocalStorage();
+		_addProjectToLocalStorage();
 	};
-	
+
 	const checkForDuplicateProjectName = function (projectName) {
 		const index = _getIndexOf(projectName);
 		if (index) {
@@ -96,6 +96,18 @@ const project = (function () {
 	const getProjects = function () {
 		return projects;
 	};
+	const taskCompleted = function (taskTitle, projectName) {
+		const projectIndex = _getIndexOf(projectName);
+		const taskIndex = projects[projectIndex].todo.findIndex((todo) => {
+			if (todo.title === taskTitle) {
+				return todo;
+			}
+		});
+		projects[projectIndex].todo[taskIndex].completionStatus = true;
+
+		_addProjectToLocalStorage();
+	};
+
 	return {
 		getProjects,
 		addProject,
@@ -106,6 +118,7 @@ const project = (function () {
 		checkForDuplicateProjectName,
 		checkForDuplicateTask,
 		getProjectFromLocalStorage,
+		taskCompleted,
 	};
 })();
 
