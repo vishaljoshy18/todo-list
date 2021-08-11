@@ -1,24 +1,39 @@
 let projects = [];
 
-function createProject(name) {
-	return { name, todo: [] };
+function createProject(name, todo) {
+	return {
+		name,
+		todo,
+		addTask: function (newTask) {
+			this.todo.push(newTask);
+		},
+		deleteTask: function (taskName) {
+			this.todo = this.todo.filter((todo) => todo.title != taskName);
+			console.log(this);
+		},
+	};
 }
 
 const project = (function () {
-	const addProject = function (name) {
-		const newProject = createProject(name);
+	const addProject = function (name, todo = []) {
+		const newProject = createProject(name, todo);
 		projects.push(newProject);
 		console.log(projects);
 		_addProjectToLocalStorage();
 	};
+
 	const _addProjectToLocalStorage = function () {
 		localStorage.setItem('storedProjects', JSON.stringify(projects));
 	};
+
 	const getProjectFromLocalStorage = function () {
 		if (localStorage.length != 0) {
 			const projectsFromStorage = JSON.parse(localStorage.getItem('storedProjects'));
 			console.log('form storage', projectsFromStorage);
-			projects = projectsFromStorage;
+			projectsFromStorage.forEach((project) => {
+				addProject(project.name, project.todo);
+			});
+			console.log(projects[0], 'projects array');
 		}
 	};
 
@@ -30,19 +45,13 @@ const project = (function () {
 		_addProjectToLocalStorage();
 	};
 
-	const addTaskToActiveProject = function (newTodo, activeProjectName) {
-		const indexOfActiveProject = _getIndexOf(activeProjectName);
-		projects[indexOfActiveProject].todo.push(newTodo);
-		_addProjectToLocalStorage();
-		console.log(projects);
-	};
-
 	const getActiveProject = function (activeProjectName) {
 		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		console.log(projects[indexOfActiveProject]);
 		_sortTasksByDate(projects[indexOfActiveProject].todo);
 		return projects[indexOfActiveProject];
 	};
+
 	const _sortTasksByDate = function (todoArray) {
 		if (todoArray.length > 1) {
 			console.log(todoArray[0].date);
@@ -61,16 +70,18 @@ const project = (function () {
 		return index;
 	};
 
-	const deleteTodoFormProject = function (taskName, activeProjectName) {
-		console.log('delete', taskName, 'from', activeProjectName);
+	const addTaskToActiveProject = function (newTodo, activeProjectName) {
+		const indexOfActiveProject = _getIndexOf(activeProjectName);
+		projects[indexOfActiveProject].addTask(newTodo);
+		_addProjectToLocalStorage();
+		console.log(projects);
+	};
 
+	const deleteTodoFormProject = function (taskName, activeProjectName) {
 		const indexOfActiveProject = _getIndexOf(activeProjectName);
 		console.log(projects);
-		projects[indexOfActiveProject].todo = projects[indexOfActiveProject].todo.filter(
-			(todo) => todo.title != taskName
-		);
+		projects[indexOfActiveProject].deleteTask(taskName);
 		console.log(projects);
-
 		_addProjectToLocalStorage();
 	};
 
@@ -96,7 +107,6 @@ const project = (function () {
 		const projectIndex = _getIndexOf(projectName);
 		const taskIndex = _getTaskIndex(projectIndex, taskTitle);
 		projects[projectIndex].todo[taskIndex].completionStatus = true;
-
 		_addProjectToLocalStorage();
 	};
 	const _getTaskIndex = function (projectIndex, taskTitle) {
