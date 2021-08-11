@@ -33,20 +33,17 @@ const project = (function () {
 			projectsFromStorage.forEach((project) => {
 				addProject(project.name, project.todo);
 			});
-			console.log(projects[0], 'projects array');
 		}
 	};
 
 	const delProject = function (name) {
-		const index = _getIndexOf(name);
+		const index = _getIndexOfproject(name);
 		projects.splice(index, 1);
-		console.log(index);
-		console.log(projects);
 		_addProjectToLocalStorage();
 	};
 
 	const getActiveProject = function (activeProjectName) {
-		const indexOfActiveProject = _getIndexOf(activeProjectName);
+		const indexOfActiveProject = _getIndexOfproject(activeProjectName);
 		console.log(projects[indexOfActiveProject]);
 		_sortTasksByDate(projects[indexOfActiveProject].todo);
 		return projects[indexOfActiveProject];
@@ -61,7 +58,7 @@ const project = (function () {
 		}
 	};
 
-	const _getIndexOf = function (projectName) {
+	const _getIndexOfproject = function (projectName) {
 		const index = projects.findIndex((project) => {
 			if (project.name == projectName) {
 				return project;
@@ -71,14 +68,14 @@ const project = (function () {
 	};
 
 	const addTaskToActiveProject = function (newTodo, activeProjectName) {
-		const indexOfActiveProject = _getIndexOf(activeProjectName);
+		const indexOfActiveProject = _getIndexOfproject(activeProjectName);
 		projects[indexOfActiveProject].addTask(newTodo);
 		_addProjectToLocalStorage();
 		console.log(projects);
 	};
 
-	const deleteTodoFormProject = function (taskName, activeProjectName) {
-		const indexOfActiveProject = _getIndexOf(activeProjectName);
+	const deleteTaskFromProject = function (taskName, activeProjectName) {
+		const indexOfActiveProject = _getIndexOfproject(activeProjectName);
 		console.log(projects);
 		projects[indexOfActiveProject].deleteTask(taskName);
 		console.log(projects);
@@ -86,14 +83,14 @@ const project = (function () {
 	};
 
 	const checkForDuplicateProjectName = function (projectName) {
-		const index = _getIndexOf(projectName);
+		const index = _getIndexOfproject(projectName);
 		if (index) {
 			return false;
 		}
 		return true;
 	};
 	const checkForDuplicateTask = function (taskTitle, projectName) {
-		const projectIndex = _getIndexOf(projectName);
+		const projectIndex = _getIndexOfproject(projectName);
 		const taskIndex = _getTaskIndex(projectIndex, taskTitle);
 		if (taskIndex) {
 			return false;
@@ -104,7 +101,7 @@ const project = (function () {
 		return projects;
 	};
 	const taskCompleted = function (taskTitle, projectName) {
-		const projectIndex = _getIndexOf(projectName);
+		const projectIndex = _getIndexOfproject(projectName);
 		const taskIndex = _getTaskIndex(projectIndex, taskTitle);
 		projects[projectIndex].todo[taskIndex].completionStatus = true;
 		_addProjectToLocalStorage();
@@ -124,7 +121,7 @@ const project = (function () {
 		delProject,
 		addTaskToActiveProject,
 		getActiveProject,
-		deleteTodoFormProject,
+		deleteTaskFromProject,
 		checkForDuplicateProjectName,
 		checkForDuplicateTask,
 		getProjectFromLocalStorage,

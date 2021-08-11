@@ -257,7 +257,7 @@ const todoDisplay = (function () {
 	const _deleteTask = function (e) {
 		console.log(e.target.parentNode);
 		const activeProject = document.querySelector('#active-project');
-		project.deleteTodoFormProject(e.target.parentNode.dataset.name, activeProject.dataset.name);
+		project.deleteTaskFromProject(e.target.parentNode.dataset.name, activeProject.dataset.name);
 		updateTasksDisplay();
 	};
 
